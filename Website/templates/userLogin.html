@@ -1,0 +1,539 @@
+<!--
+Anubha Barve , ab4285@drexel.edu
+CS530: DUI, Assignment 1 
+-->
+
+{% extends 'base.html' %}
+{% set active = "Home" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+            <div class="container">
+              <div class="row justify-content-around">
+                    <div class="col-md-3" style="border: 1px solid black; border-radius: 2px; margin-top: 20px; height: auto;">
+                    <div class="panel-group">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#" onclick="addexpense()" id="account" data-toggle="tooltip" title="Click to view">Add Expenses</a>
+                          </h4>
+                        </div>
+                        </div>
+                      </div>
+                    <div class="panel-group">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <h4 class="panel-title">
+                                  <a data-toggle="collapse" href="#" onclick="addaccount()" id="account" data-toggle="tooltip" title="Click to view">Add Account</a>
+                                </h4>
+                              </div>
+                              </div>
+                            </div>
+                            <div class="panel-group">
+                                    <div class="panel panel-default">
+                                      <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                          <a data-toggle="collapse" href="#collapse3" id="account">View Expenses <img src="/course/lib/feather/chevron-down.svg"></a>
+                                        </h4>
+                                      </div>
+                                      <div id="collapse3" class="panel-collapse collapse">
+                                        <div> <a  id="account" href="#" onclick="viewBarChart()" data-toggle="tooltip" title="Click to view">Bar Chart</a> </div>
+                                        <div> <a  id="account" href ="#" onclick="viewPieChart()" data-toggle="tooltip" title="Click to view">Pie Chart</a> </div>
+                                        <div><a  id="account" href="#" onclick="viewTable()" data-toggle="tooltip" title="Click to view">Table</a></div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                    <div class="panel-group">
+                                            <div class="panel panel-default">
+                                              <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                  <a data-toggle="collapse" href="#collapse4" onclick="addbudget()" id="account" data-toggle="tooltip" title="Click to view and Re-click to remove">Add Budget</a>
+                                                </h4>
+                                              </div>
+                                              </div>
+                                            </div>
+                                            <div class="panel-group">
+                                                    <div class="panel panel-default">
+                                                      <div class="panel-heading">
+                                                        <h4 class="panel-title">
+                                                          <a data-toggle="collapse" href="#collapse5" id="account">Settings <img src="/course/lib/feather/chevron-down.svg"></a>
+                                                        </h4>
+                                                      </div>
+                                                      <div id="collapse5" class="panel-collapse collapse">
+                                                              <div> <a  id="account" href="#" onclick="changeUser()" data-toggle="tooltip" title="Click to view">Change Username</a> </div>
+                                                              <div> <a  id="account" href ="#" onclick="changePwd()" data-toggle="tooltip" title="Click to view">Change Password</a> </div>
+                                                              <div> <a  id="account" href="#" onclick="budgetCheck()" data-toggle="tooltip" title="Click to view">Budget Overflow Notification</a> </div>
+                                                          </div>
+                                                      </div>
+                                                    </div>
+                                                    <div class="panel-group">
+                                                            <div class="panel panel-default">
+                                                              <div class="panel-heading">
+                                                                <h4 class="panel-title">
+                                                                  <a href="/logout" id="account">Logout</a>
+                                                                </h4>
+                                                              </div>
+                                                              </div>
+                                                            </div>                         
+                          </div>
+                          <div class="col-8" style="border: 1px solid black; border-radius: 2px; margin-top: 20px; height: 500px;">
+                              {% if message %}
+                              <div class="alert alert-info alert-dismissible" class="divDecoration">
+                                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                  <strong>{{ message }}</strong>
+                              </div>
+                              {% endif %}
+                            <div id = "addexpense" class="divDecoration">
+                                <form method="POST" action="/addexpense" class="pt-3">                      
+                                  <div class="container" id="con">
+                                    <label for="description" style="margin-left:5%"><b>Description</b></label>
+                                    <input type="text" placeholder="Enter Description" name="description" required>
+                                  </div>
+                                  <div class = "container" id="con">
+                                    <label for="category" style="margin-left:5%"><b>Category</b></label>
+                                    <select class="form-control" id="sel" name="category" required>
+                                        <option>Grocery</option>
+                                        <option>Entertainment</option>
+                                        <option>Travel</option>
+                                        <option>Education</option>
+                                        <option>Other</option>
+                                      </select>
+                                  </div>
+                                  <div class="container" id="con">
+                                      <label for="amount" style="margin-left:5%"><b>Amount</b></label>
+                                      <input type="text" placeholder="Enter Amount Paid" name="amount" required>
+                                    </div>    
+                                  <div class="container" id="con">
+                                      <button type="submit" class="btn btn-primary" style="margin-left: 40%;">Save</button>
+                                      <button type="reset" class="btn btn-primary">Clear</button>
+                                    </div>
+                                </form>  
+                            </div>
+                            <div id="addaccount" style="display: none;" class="divDecoration">
+                                <form method="POST" action="/addaccount" class="pt-3">                      
+                                  <div class = "container" id="con">
+                                    <label for="account" style="margin-left:5%"><b>Account</b></label>
+                                    <select class="form-control" id="sel" name="account" required>
+                                        <option>Venmo</option>
+                                        <option>PNC Bank</option>
+                                        <option>Bank of America</option>
+                                        <option>TD Bank</option>
+                                        <option>PayPal</option>
+                                        <option>Zelle</option>
+                                        <option>Other</option>
+                                      </select>
+                                  </div>
+                                  <div class="container" id="con">
+                                      <label for="balance" style="margin-left:5%"><b>Total Balance</b></label>
+                                      <input type="text" placeholder="Enter total Account Balance" name="balance" required>
+                                    </div>    
+                                  <div class="container" id="con">
+                                      <button type="submit" class="btn btn-primary" style="margin-left: 40%;">Save</button>
+                                      <button type="reset" class="btn btn-primary">Clear</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div id="addbudget" style="display: none;" class="divDecoration">
+                                <form method="POST" action="/addbudget" class="pt-3">                      
+                                  <div class = "container" id="con">
+                                    <label for="category" style="margin-left:5%"><b>Category</b></label>
+                                    <select class="form-control" id="sel" name="category" required>
+                                        <option>Grocery</option>
+                                        <option>Entertainment</option>
+                                        <option>Travel</option>
+                                        <option>Education</option>
+                                        <option>Other</option>
+                                      </select>
+                                  </div>
+                                  <div class="container" id="con">
+                                      <label for="budget" style="margin-left:5%"><b>Budget</b></label>
+                                      <input type="text" placeholder="Enter Budget" name="budget" required>
+                                    </div>    
+                                  <div class="container" id="con">
+                                      <button type="submit" class="btn btn-primary" style="margin-left: 40%;">Save</button>
+                                      <button type="reset" class="btn btn-primary">Clear</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div id="table1" style="display :none;" class="divDecoration">
+                              <table class="table" id="view1">
+                                <tr>
+                                  <th>Description</th>
+                                  <th>Category</th>
+                                  <th>Amount</th>
+                                </tr>
+                              </table>
+                            </div>
+                            <div class="canvas-container" id="pie" style="display :none;">
+                                <canvas id="pieChart" width="700" height="500"></canvas>
+                            </div>
+                            <div id="bar" style="display :none;">
+                                <div id="chart"></div>
+                            </div>
+
+                            <div id="changeUser" style="display: none;" class="divDecoration">
+                              <form method="POST" action="/changeUser" class="pt-3">                      
+                                <div class="container" id="con">
+                                  <label for="newUser" style="margin-left:5%"><b>New Username</b></label>
+                                  <input type="text" placeholder="Enter New Username" name="newU" required>
+                                </div>
+                                <div class="container" id="con">
+                                  <label for="cNewUser" style="margin-left:5%"><b>Re-enter Username</b></label>
+                                  <input type="text" placeholder="Confirm New Username" name="cnewU" required>
+                                </div>    
+                                <div class="container" id="con">
+                                    <button type="submit" class="btn btn-primary" style="margin-left: 40%;">Change</button>
+                                    <button type="reset" class="btn btn-primary">Clear</button>
+                                  </div>
+                              </form>  
+                          </div>
+                          
+                          <div id="changePwd" style="display: none;" class="divDecoration">
+                            <form method="POST" action="/changePwd" class="pt-3">                      
+                              <div class="container" id="con">
+                                <label for="newPwd" style="margin-left:5%"><b>New Password</b></label>
+                                <input type="password" placeholder="Enter New Password" name="newP" required>
+                              </div>
+                              <div class="container" id="con">
+                                <label for="cNewPwd" style="margin-left:5%"><b>Re-enter Password</b></label>
+                                <input type="password" placeholder="Confirm New Password" name="cnewP" required>
+                              </div>    
+                              <div class="container" id="con">
+                                  <button type="submit" class="btn btn-primary" style="margin-left: 40%;">Change</button>
+                                  <button type="reset" class="btn btn-primary">Clear</button>
+                                </div>
+                            </form>  
+                        </div>
+                        <div id="budget" style="display: none;" class="divDecoration">
+                            <div class="alert alert-info alert-dismissible" id="check">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            </div>
+                        </div>
+                          </div>
+                          </div>
+                        </div> 
+                        <script>
+                          flag = 0;
+                          function addaccount() {
+                            var x = document.getElementById("addaccount");
+                            if (x.style.display === "none") {
+                            var divId = $("div.divDecoration").not(":hidden").prop("id");
+                            if (divId){
+                              var a = document.getElementById(divId);
+                              a.style.display = "none";
+                            }
+                              x.style.display = "block";
+                              
+                              } else {
+                                x.style.display = "none";
+                                }
+                            }
+                            function addexpense() {
+                            var x = document.getElementById("addexpense");
+                            
+                            if (x.style.display === "none") {
+                              var divId = $("div.divDecoration").not(":hidden").prop("id");
+                              if (divId){
+                              var a = document.getElementById(divId);
+                              a.style.display = "none";
+                            }
+                              x.style.display = "block";
+                              } else {
+                                x.style.display = "none";
+                                }
+                            }
+                            function addbudget() {
+                            var x = document.getElementById("addbudget");
+                            if (x.style.display === "none") {
+                              var divId = $("div.divDecoration").not(":hidden").prop("id");
+                              if (divId){
+                              var a = document.getElementById(divId);
+                              a.style.display = "none";
+                            }
+                              x.style.display = "block";
+                              
+                              } else {
+                                x.style.display = "none";
+                                }
+                            }
+
+                            function changeUser() {
+                            var x = document.getElementById("changeUser");
+                            
+                            if (x.style.display === "none") {
+                              var divId = $("div.divDecoration").not(":hidden").prop("id");
+                              if (divId){
+                              var a = document.getElementById(divId);
+                              a.style.display = "none";
+                            }
+                              x.style.display = "block";
+                              } else {
+                                x.style.display = "none";
+                                }
+                            }
+
+                            function changePwd() {
+                            var x = document.getElementById("changePwd");
+                            if (x.style.display === "none") {
+                              var divId = $("div.divDecoration").not(":hidden").prop("id");
+                              if (divId){
+                              var a = document.getElementById(divId);
+                              a.style.display = "none";
+                            }
+                              x.style.display = "block";
+                              } else {
+                                x.style.display = "none";
+                                }
+                            }
+
+                            function budgetCheck() {
+                              var x = document.getElementById("budget");
+                            if (x.style.display === "none") {
+                              var divId = $("div.divDecoration").not(":hidden").prop("id");
+                              if (divId){
+                              var a = document.getElementById(divId);
+                              a.style.display = "none";
+                            }  
+                            x.style.display = "block";
+                            $.get("api/piechart", function(data){
+                                $.get("api/budget", function(response){
+                                  if (data && response){
+                                    for(var i=0; i<data.length; i++){
+                                    for(var j=0; j<response.length; j++){
+                                      if (data[i].category === response[j].category){
+                                        if (data[i].total >= response[j].budget){
+                                          $('#check').append('<p> Budget Overflow for ' +data[i].category +  '!!</p>');
+                                        }
+                                        else{
+                                          $('#check').append('<p> Budget Under Control for ' +data[i].category + '!!</p> ');
+                                        }
+                                      }
+                                    }
+                                  } 
+                                  }
+                                  else{
+                                    $('#check').append(text('No Budget Added !!'));
+                                  }
+                                });
+                              });
+                            }
+                            }
+                             
+                            function viewTable(){
+                            var x = document.getElementById("table1");
+                            if (x.style.display === "none") {
+                              var divId = $("div.divDecoration").not(":hidden").prop("id");
+                              if (divId){
+                              var a = document.getElementById(divId);
+                              a.style.display = "none";
+                            }
+                              x.style.display = "block";
+                              $.get("api/table", function(data){
+                                if (flag == 0){
+                                  flag = 1;
+                                for(var i=0; i < data.length; i++)
+                                {
+                                  var des = data[i].description;
+                                  var cat = data[i].category;
+                                  var amt = data[i].amount;
+                                  $('<tr>').append(
+                                            $('<td>').text(des)
+                                                            ).append(
+                                                                      $('<td>').text(cat)
+                                                                    ).append(
+                                                                              $('<td>').text(amt)
+                                                                            ).appendTo('tbody');
+                                  
+                                }
+                                }
+                              });
+                              } 
+                              else {
+                                x.style.display = "none";
+                                }
+                            }
+
+                            function viewPieChart() {
+                            var x = document.getElementById("pie");
+                            
+                            if (x.style.display === "none") {
+                              var divId = $("div.divDecoration").not(":hidden").prop("id");
+                              if (divId){
+                              var a = document.getElementById(divId);
+                              a.style.display = "none";
+                            }                              x.style.display = "block";
+                              $.get("api/piechart" , function(data){
+                              var drawPieChart = function(data, colors) {
+                                var canvas = document.getElementById('pieChart');
+                                var ctx = canvas.getContext('2d');
+                                var x = canvas.width / 2.2;
+                                    y = canvas.height / 2.2;
+                                var color,
+                                    startAngle,
+                                    endAngle,
+                                    total = getTotal(data);
+                                
+                                for(var i=0; i<data.length; i++) {
+                                  color = colors[i];
+                                  startAngle = calculateStart(data, i, total);
+                                  endAngle = calculateEnd(data, i, total);
+                                  
+                                  ctx.beginPath();
+                                  ctx.fillStyle = color;
+                                  ctx.moveTo(x, y);
+                                  ctx.arc(x, y, y-100, startAngle, endAngle);
+                                  ctx.fill();
+                                  ctx.rect(canvas.width - 200, y - i * 30, 12, 12);
+                                  ctx.fill();
+                                  ctx.font = "13px sans-serif";
+                                  ctx.fillText(data[i].category + " - " + data[i].total + " (" + calculatePercent(data[i].total, total) + "%)", canvas.width - 200 + 30, y - i * 30 + 20);
+                                }
+                                };
+                              var calculatePercent = function(value, total) {
+                                
+                                return (value / total * 100).toFixed(2);
+                              };
+
+                              var getTotal = function(data) {
+                                var sum = 0;
+                                for(var i=0; i<data.length; i++) {
+                                  sum += data[i].total;
+                                }
+                                    
+                                return sum;
+                              };
+
+                              var calculateStart = function(data, index, total) {
+                                if(index === 0) {
+                                  return 0;
+                                }
+                                
+                                return calculateEnd(data, index-1, total);
+                              };
+
+                              var calculateEndAngle = function(data, index, total) {
+                                var angle = data[index].total / total * 360;
+                                var inc = ( index === 0 ) ? 0 : calculateEndAngle(data, index-1, total);
+                                
+                                return ( angle + inc );
+                              };
+
+                              var calculateEnd = function(data, index, total) {
+                                
+                                return degreeToRadians(calculateEndAngle(data, index, total));
+                              };
+
+                              var degreeToRadians = function(angle) {
+                                return angle * Math.PI / 180
+                              }
+
+                              var colors = [ '#e60000', '#0000cc', '#e60099', '#33cc33' ,'#e6e600'];
+
+                              drawPieChart(data, colors);
+
+                            });} else {
+                                x.style.display = "none";
+                                }
+                            }
+
+                            function viewBarChart(){
+                            var x = document.getElementById("bar");
+                            if (x.style.display === "none") {
+                              var divId = $("div.divDecoration").not(":hidden").prop("id");
+                              if (divId){
+                              var a = document.getElementById(divId);
+                              a.style.display = "none";
+                            }
+                              x.style.display = "block";
+                              $.get('api/barchart' , function(data){
+                              var chartjson = {
+                              "title" : "Expenses",
+                              "xtitle": "Categories",
+                              "ytitle": "Amount spend",
+                              "ymax": 100,
+                              "ykey": 'total',
+                              "xkey": "category",
+                              "prefix": "%"
+                            }
+
+                            //chart colors
+                            var colors = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen'];
+
+                            //constants
+                            var TROW = 'tr',
+                              TDATA = 'td';
+
+                            var chart = document.createElement('div');
+                            //create the chart canvas
+                            var barchart = document.createElement('table');
+                            //create the title row
+                            var titlerow = document.createElement(TROW);
+                            //create the title data
+                            var titledata = document.createElement(TDATA);
+                            //make the colspan to number of records
+                            titledata.setAttribute('colspan', data.length + 1);
+                            titledata.setAttribute('class', 'charttitle');
+                            titledata.innerText = chartjson.title;
+                            titlerow.appendChild(titledata);
+                            barchart.appendChild(titlerow);
+                            chart.appendChild(barchart);
+
+                            //create the bar row
+                            var barrow = document.createElement(TROW);
+
+                            //lets add data to the chart
+                            for (var i = 0; i < data.length; i++) {
+                              barrow.setAttribute('class', 'bars');
+                              var prefix = chartjson.prefix || '';
+                              //create the bar data
+                              var bardata = document.createElement(TDATA);
+                              var bar = document.createElement('div');
+                              bar.setAttribute('class', colors[i]);
+                              bar.style.height = data[i][chartjson.ykey] + prefix;
+                              bardata.innerText = data[i][chartjson.ykey] + prefix;
+                              bardata.appendChild(bar);
+                              barrow.appendChild(bardata);
+                            }
+
+                            //create legends
+                            var legendrow = document.createElement(TROW);
+                            var legend = document.createElement(TDATA);
+                            legend.setAttribute('class', 'legend');
+                            legend.setAttribute('colspan', data.length);
+
+                            //add legend data
+                            for (var i = 0; i < data.length; i++) {
+                              var legbox = document.createElement('span');
+                              legbox.setAttribute('class', 'legbox');
+                              var barname = document.createElement('span');
+                              barname.setAttribute('class', colors[i] + ' xaxisname');
+                              var bartext = document.createElement('span');
+                              bartext.innerText = data[i][chartjson.xkey];
+                              legbox.appendChild(barname);
+                              legbox.appendChild(bartext);
+                              legend.appendChild(legbox);
+                            }
+                            barrow.appendChild(legend);
+                            barchart.appendChild(barrow);
+                            barchart.appendChild(legendrow);
+                            chart.appendChild(barchart);
+                            document.getElementById('chart').innerHTML = chart.outerHTML;
+                                   });     } else {
+                                x.style.display = "none";
+                                }
+
+                            }
+
+                            $(document).ready(function(){
+                              $('[data-toggle="tooltip"]').tooltip();   
+                            });
+                                                          
+                        </script>
+                      
+                        
+{% endblock %}

@@ -1,0 +1,26 @@
+<!--
+Anubha Barve , ab4285@drexel.edu
+CS530: DUI, Assignment 1 
+-->
+
+{% extends 'base.html' %}
+{% set active = "Home" %}
+
+{% block title %}
+Home
+{% endblock %}
+{% block content %}
+<!-- About Page -->
+<section class="jumbotron">
+    <div class="text-center">
+        <h2 class="jumbotron-heading">WatchDog</h2>
+        <p class="lead text-muted">WatchDog provides a platform to record your daily expenses along with varoius features.</p>
+        <h4 class="jumbotron-heading">Add Expenses</h4>
+        <p class="lead text-muted">Add daily expenses to WatchDog</p>
+        <h4 class="jumbotron-heading">Visualize Expenditure</h3>
+        <p class="lead text-muted">View your expenditure in form of bar chart, pie chart or table</p>
+        <h4 class="jumbotron-heading">Set Budget</h4>
+        <p class="lead text-muted">Set budgets to keep a check on your spending </p>
+    </div>
+</section>
+{% endblock %}
